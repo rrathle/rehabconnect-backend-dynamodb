@@ -1,40 +1,52 @@
 // Project: RehabConnect - Patient Progress Tracker
-// Frontend: React
+// Backend: Java + Spring Boot + DynamoDB
 
-# RehabConnect Frontend – React
+# RehabConnect Backend – Java + Spring Boot + DynamoDB
 
-A frontend web application for patients to log physical therapy sessions and for PTs to view and manage rehab progress. This version uses React and is designed to connect with any of the RehabConnect backend APIs (PostgreSQL, DynamoDB, MongoDB).
+A backend service for logging and tracking physical therapy sessions. Built with Java + Spring Boot and designed to be deployed on AWS (Lambda + API Gateway + Cognito) with DynamoDB as the primary NoSQL database.
 
 ---
 
 ## Features
-- Patient login and secure access (integrated with Cognito or other auth)
-- Log daily rehab activities
-- View progress history and pain level trends
-- Connects to RESTful API
+- Patients can log daily rehab activities
+- PTs can track progress and update rehab plans
+- Secure user login with AWS Cognito
+- RESTful API
+- DynamoDB-powered data storage
 
 ---
 
 ## Tech Stack
-- React (with Hooks)
-- Axios (API calls)
-- React Router DOM
-- CSS Modules / Tailwind / Styled Components (optional styling)
-- Deployed via Vercel / Netlify / S3
+- Java 17
+- Spring Boot 3
+- AWS: Lambda, API Gateway, Cognito, S3 (optional)
+- Database: DynamoDB (NoSQL)
+- Build Tool: Maven
+- Deployment: SAM CLI / AWS Console / Docker
+
+---
+
+## Endpoints
+| Method | Endpoint                 | Description                         |
+|--------|--------------------------|-------------------------------------|
+| POST   | `/log`                   | Log rehab activity session          |
+| GET    | `/progress/{patientId}` | Retrieve progress logs              |
+| PUT    | `/plan/{patientId}`     | Update patient rehab plan           |
 
 ---
 
 ## Folder Structure
 ```
-rehabconnect-frontend/
-├── public/
+rehabconnect-backend/
 ├── src/
-│   ├── components/
-│   ├── pages/
-│   ├── services/ (API functions)
-│   └── App.js
-├── .env
-├── package.json
+│   └── main/java/com/rehabconnect/
+│       ├── controller/
+│       ├── model/
+│       ├── service/
+│       └── repository/
+├── resources/
+│   └── application.yml
+├── pom.xml
 └── README.md
 ```
 
@@ -42,54 +54,45 @@ rehabconnect-frontend/
 
 ## Setup Instructions
 ```bash
-git clone https://github.com/yourusername/rehabconnect-frontend.git
-cd rehabconnect-frontend
-npm install
-npm start
+git clone https://github.com/yourusername/rehabconnect-backend.git
+cd rehabconnect-backend
+./mvnw spring-boot:run
 ```
 
-Update `.env` with your backend API URL:
-```
-REACT_APP_API_BASE_URL=https://your-api-url.com
-```
-
----
-
-## Pages
-- `/login` – User login page (Cognito/Auth placeholder)
-- `/log` – Submit new rehab session
-- `/progress/:patientId` – View progress log
-- `/plan` – Rehab plan overview (if PT)
+Ensure AWS credentials and DynamoDB setup are configured properly.
 
 ---
 
 ## Coming Soon
-- Charts & graphs using Chart.js or Recharts
-- Auth token handling with AWS Cognito
-- Mobile responsive design
+- React Frontend (optional)
+- GraphQL migration
+- Docker deployment
 
 ---
 
 ## Architecture Overview
 ```
-[React Frontend]
+[Frontend (React/HTML)]
       ↓
-[REST API: /log, /progress]
+[API Gateway (REST)]
       ↓
-[Spring Boot / Node API Layer]
+[AWS Lambda (Spring Boot)]
       ↓
-[PostgreSQL / MongoDB / DynamoDB]
+[DynamoDB (NoSQL)]
+      ↓
+[Cognito (Auth)]
 ```
 
 ---
 
-## Example Payload
+## Example Data Model (JSON)
 ```json
 {
   "patientId": "abc-123",
-  "painLevel": 3,
+  "date": "2025-06-23",
+  "painLevel": 4,
   "exercises": ["Bridge", "Bird Dog"],
-  "repsCompleted": 25
+  "repsCompleted": 20
 }
 ```
 
